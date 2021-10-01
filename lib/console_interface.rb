@@ -3,9 +3,9 @@ class ConsoleInterface
   # помещённые в массив. Один элемент массива — одна строка с содержимым целого
   # файла.
   FIGURES =
-      Dir["#{__dir__}/../data/figures/*.txt"].
-      sort.
-      map { |file_name| File.read(file_name) }
+    Dir["#{__dir__}/../data/figures/*.txt"].
+    sort.
+    map { |file_name| File.read(file_name) }
 
   # На вход конструктор класса ConsoleInterface принимает экземпляр класса Game.
   #
