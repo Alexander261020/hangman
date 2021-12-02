@@ -60,7 +60,12 @@ class ConsoleInterface
   # Получает букву из пользовательского ввода, приводит её к верхнему регистру
   # и возвращает её
   def get_input
-    print "Введите следующую букву: "
-    gets[0].upcase
+    letter = ""
+    while letter == "" || letter == " "
+      print "Введите следующую букву: "
+      letter = gets[0].upcase.chomp
+    end
+
+    letter
   end
 end
