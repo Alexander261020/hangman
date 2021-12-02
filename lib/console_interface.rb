@@ -1,26 +1,16 @@
 class ConsoleInterface
-  # В константе FIGURES будут лежать все текстовые файлы из папки figures,
-  # помещённые в массив. Один элемент массива — одна строка с содержимым целого
-  # файла.
   FIGURES =
     Dir["#{__dir__}/../data/figures/*.txt"].
     sort.
     map { |file_name| File.read(file_name) }
 
-  # На вход конструктор класса ConsoleInterface принимает экземпляр класса Game.
-  #
-  # Экземпляр ConsoleInterface выводит информацию юзеру. При выводе использует
-  # статические строки типа "У вас осталось ошибок:" и информацию из экземпляра
-  # класса Game, дёргая у него методы, которые мы придумали.
   def initialize(game)
     @game = game
   end
 
-  # Выводит в консоль текущее состояние игры, используя данные из экземпляра
-  # класса Game (количество ошибок, сколько осталось попыток и т.д.)
   def print_out
     word = "Слово: #{word_to_show}".colorize(:blue)
-    errors = "Ошибки (#{@game.errors_made}): #{errors_to_show}".colorize(:red)
+    errors = "Ошибки (#{@game.amount_errors}): #{errors_to_show}".colorize(:red)
 
     puts <<~END
       #{word}
@@ -41,7 +31,7 @@ class ConsoleInterface
   # ошибок, сделанных пользователем на данный момент (число ошибок берем у
   # экземпляра класса Game)
   def figure
-    FIGURES[@game.errors_made]
+    FIGURES[@game.amount_errors]
   end
 
   # Метод, который готовит слово для вывода "на игровом табло".
@@ -58,14 +48,8 @@ class ConsoleInterface
   def word_to_show
     result =
       @game.letters_to_guess.map do |letter|
-        if letter == nil
-          "__"
-        else
-          letter
-        end
-      end
-
-    result.join(" ")
+        letter ? letter : "__"
+      end.join(" ")
   end
 
   # Получает массив ошибочных букв и склеивает их в строку вида "Х, У"
@@ -77,7 +61,6 @@ class ConsoleInterface
   # и возвращает её
   def get_input
     print "Введите следующую букву: "
-    letter = gets[0].upcase
-    letter
+    gets[0].upcase
   end
 end
