@@ -18,7 +18,7 @@ data/words.txt
 ```
 bundle install
 ```
-Запускается из консоли в корне программы командой:
+Далее прописываем в косоли:
 ```
 bundle exec ruby main.rb
 ```
