@@ -20,5 +20,5 @@ bundle install
 ```
 Запускается из консоли в корне программы командой:
 ```
-ruby main.rb
+bundle exec ruby main.rb
 ```

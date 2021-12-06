@@ -9,16 +9,12 @@ class ConsoleInterface
   end
 
   def print_out
-    word = "Слово: #{word_to_show}".colorize(:blue)
-    errors = "Ошибки (#{@game.amount_errors}): #{errors_to_show}".colorize(:red)
-
-    puts <<~END
-      #{word}
+    puts <<~INTERFACE
+      #{"Слово: #{word_to_show}".colorize(:blue)}
       #{figure.colorize(:yellow)}
-      #{errors}
+      #{"Ошибки (#{@game.amount_errors}): #{errors_to_show}".colorize(:red)}
       У вас осталось ошибок: #{@game.errors_allowed}
-
-    END
+    INTERFACE
 
     if @game.won?
       puts "Поздравляем, вы выиграли!".colorize(:blue)
@@ -46,10 +42,7 @@ class ConsoleInterface
   # На вход передали: ["К", "О", nil, "О", nil, nil],
   # на выходе будет: "К О __ О __ __"
   def word_to_show
-    result =
-      @game.letters_to_guess.map do |letter|
-        letter ? letter : "__"
-      end.join(" ")
+    @game.letters_to_guess.map { |letter| letter || "__" }.join(" ")
   end
 
   # Получает массив ошибочных букв и склеивает их в строку вида "Х, У"
@@ -60,12 +53,12 @@ class ConsoleInterface
   # Получает букву из пользовательского ввода, приводит её к верхнему регистру
   # и возвращает её
   def get_input
-    letter = ""
-    while letter == "" || letter == " "
-      print "Введите следующую букву: "
-      letter = gets[0].upcase.chomp
+    print "Введите следующую букву: "
+  
+    while (user_input = gets.strip.upcase).empty?
+      print "Вы не ввели букву. Повторите ввод: "
     end
-
-    letter
+  
+    user_input[0]
   end
 end
